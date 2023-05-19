@@ -163,4 +163,4 @@ cython_debug/
 #.idea/
 
 # SQLite database file "users.db"
-database/users.db
+users.db
