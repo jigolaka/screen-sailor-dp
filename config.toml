@@ -10,7 +10,7 @@
     port = 9999
     title = "Screen Sailor"
     viewport = "width=device-width"
-    favicon = "favicon.ico"
+    favicon = "⛵"
     dark = true
     language = "en-US"
     show = false
