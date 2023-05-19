@@ -1,0 +1,25 @@
+[app]
+    [app.folders]
+    database = "database/"
+    model = "model/" 
+    static = "static/"
+
+[ui]
+    [ui.run]
+    host = "localhost"
+    port = 9999
+    title = "Screen Sailor"
+    viewport = "width=device-width"
+    favicon = "favicon.ico"
+    dark = true
+    language = "en-US"
+    show = false
+
+    [ui.colors]
+    primary = "#00CCAE"     # Aquamarine
+    secondary = "#23262E"   # Onyx
+    accent = "#FFFFFF"      # Quartz
+    positive = "#50C878"    # Emerald
+    negative = "#9B111E"    # Ruby
+    info = "#0F52BA"        # Sapphire
+    warning = "#FFC87C"     # Topaz
