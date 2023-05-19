@@ -1,6 +1,5 @@
 [app]
-    [app.folders]
-    project = ""
+    [app.src]
     database = "database"
     model = "model" 
     static = "static"
