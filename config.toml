@@ -1,8 +1,9 @@
 [app]
     [app.folders]
-    database = "database/"
-    model = "model/" 
-    static = "static/"
+    project = ""
+    database = "database"
+    model = "model" 
+    static = "static"
 
 [ui]
     [ui.run]
