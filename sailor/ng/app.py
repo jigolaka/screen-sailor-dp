@@ -214,11 +214,12 @@ def log_out(request: Request):
     return RedirectResponse("/")
 
 
-launch = ui.run(host=config["ui"]["run"]["host"],
-                port=config["ui"]["run"]["port"],
-                title=config["ui"]["run"]["title"],
-                viewport=config["ui"]["run"]["viewport"],
-                favicon=config["ui"]["run"]["favicon"],
-                dark=config["ui"]["run"]["dark"],
-                language=config["ui"]["run"]["language"],
-                show=config["ui"]["run"]["show"])
+def launch():
+    ui.run(host=config["ui"]["run"]["host"],
+           port=config["ui"]["run"]["port"],
+           title=config["ui"]["run"]["title"],
+           viewport=config["ui"]["run"]["viewport"],
+           favicon=config["ui"]["run"]["favicon"],
+           dark=config["ui"]["run"]["dark"],
+           language=config["ui"]["run"]["language"],
+           show=config["ui"]["run"]["show"])
