@@ -1,9 +1,3 @@
-[app]
-    [app.src]
-    database = "database"
-    model = "model" 
-    static = "static"
-
 [ui]
     [ui.run]
     host = "localhost"
