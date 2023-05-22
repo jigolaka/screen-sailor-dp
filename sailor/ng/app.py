@@ -10,8 +10,10 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from sailor.ng.comps import *
 from sailor.db.models import Users
+from sailor.process.controls import Controls
 from sailor.utils.dirscan import find_path
-from sailor.process.camera import Camera
+from sailor.utils.device import cap_device_list
+
 
 db_name = "users.db"
 db_path = find_path(db_name)
@@ -31,9 +33,11 @@ def is_authenticated(request: Request) -> bool:
 @ui.page("/")
 def main_page(request: Request):
     def update_frame():
-        frame = cam.process_frame()
-        frame = cam.convert_frame_base64(frame)
-        ui_interactive_image.source = frame
+        frame = controls.process()
+        frame = controls.hands_control(frame)
+        frame = controls.as_base64(frame)
+
+        cam_stream.source = frame
 
     def try_edit():
         pass
@@ -42,7 +46,8 @@ def main_page(request: Request):
         return RedirectResponse("/login")
 
     session = session_info[request.session["id"]]
-    cam = Camera()
+
+    controls = Controls()
 
     ui.timer(interval=0.05, callback=update_frame)
 
@@ -59,28 +64,145 @@ def main_page(request: Request):
                 with ui.expansion("Camera", icon=camera_icon, value=True).style(card_color):
                     with card():
                         ui.separator()
-                        ui_interactive_image = ui.interactive_image()
-                        ui.separator()
+                        cam_stream = ui.interactive_image().style(
+                            f"width: 640px; height: 480px; border: 1px solid {primary};")
+                        camera_index_select(cap_device_list, controls)
 
-                with ui.expansion("Camera settings", icon=camera_settings_icon, value=True).style(card_color):
-                    with card():
-                        ui.separator()
+                with ui.column():
+                    with ui.expansion("Camera settings", icon=camera_settings_icon, value=True).style(card_color):
+                        with card():
+                            ui.separator()
+                            with inline_row("1", "3", "15px"):
+                                ui.label("Brightness")
+                                brightness_slider = camera_brightness_slider(
+                                    controls)
 
-                with ui.expansion("Tracker settings", icon=tracker_settings_icon, value=True).style(card_color):
-                    with card():
-                        ui.separator()
+                            with inline_row("1", "3", "15px"):
+                                ui.label("Contrast")
+                                contrast_slider = camera_contrast_slider(
+                                    controls)
+
+                            with inline_row("1", "3", "15px"):
+                                ui.label("Hue")
+                                hue_slider = camera_hue_slider(controls)
+
+                            with inline_row("1", "3", "15px"):
+                                ui.label("Saturation")
+                                saturation_slider = camera_saturation_slider(
+                                    controls)
+
+                            with inline_row("1", "3", "15px"):
+                                ui.label("Sharpness")
+                                sharpness_slider = camera_sharpness_slider(
+                                    controls)
+
+                            with inline_row("1", "3", "15px"):
+                                ui.label("Gamma")
+                                gamma_slider = camera_gamma_slider(controls)
+
+                            with inline_row("2", "1", "15px"):
+                                flip_image_checkbox = flip_camera_image_checkbox(
+                                    controls)
+
+                                default_camera_settings_button(controls,
+                                                               brightness_slider,
+                                                               contrast_slider,
+                                                               hue_slider,
+                                                               saturation_slider,
+                                                               sharpness_slider,
+                                                               gamma_slider,
+                                                               flip_image_checkbox)
+
+                    with ui.expansion("Tracker settings", icon=tracker_settings_icon, value=True).style(card_color):
+                        with card():
+                            ui.separator()
+                            with inline_row("1", "1", "15px"):
+                                ui.label("Detection confidence")
+                                detec_con_slider = model_detec_con_slider(
+                                    controls)
+
+                            with inline_row("1", "1", "15px"):
+                                ui.label("Tracking confidence")
+                                track_con_slider = model_track_con_slider(
+                                    controls)
+
+                            with inline_row("2", "1", "15px"):
+                                complexity_select = model_complexity_select(
+                                    controls)
+
+                                default_model_settings_button(controls,
+                                                              detec_con_slider,
+                                                              track_con_slider,
+                                                              complexity_select)
 
                 with ui.expansion("Gesture settings", icon=gestures_settings_icon, value=True).style(card_color):
                     with card():
                         ui.separator()
+                        gesture_model_files = gesture_model_files_upload(
+                            controls)
 
-                with ui.expansion("Controls settings", icon=controls_settings_icon, value=True).style(card_color):
-                    with card():
-                        ui.separator()
+                with ui.column():
+                    with ui.expansion("Controls settings", icon=controls_settings_icon, value=True).style(card_color):
+                        with card():
+                            ui.separator()
+                            with inline_row("1", "2", "15px"):
+                                ui.label("Frame reduction")
+                                frame_reduction_slider = controls_frame_reduction_slider(
+                                    controls)
 
-                with ui.expansion("Display settings", icon=display_settings_icon, value=True).style(card_color):
-                    with card():
-                        ui.separator()
+                            with inline_row("2.5", "1", "41px"):
+                                hands_control_checkbox = activate_hands_control_checkbox(
+                                    controls)
+                                default_controls_settings_button(controls,
+                                                                 hands_control_checkbox,
+                                                                 frame_reduction_slider)
+
+                    with ui.expansion("Display settings", icon=display_settings_icon, value=True).style(card_color):
+                        with card():
+                            ui.separator()
+                            with inline_row("1", "1", "15px"):
+                                ui.label("Point landmark radius")
+                                point_landmark_radius = point_landmark_radius_slider(
+                                    controls)
+
+                            with inline_row("1", "1", "15px"):
+                                ui.label("Point landmark thickness")
+                                point_landmark_thickness = point_landmark_thickness_slider(
+                                    controls)
+
+                            with inline_row("1", "1", "15px"):
+                                ui.label("Line landmark thickness")
+                                line_landmark_thickness = line_landmark_thickness_slider(
+                                    controls)
+
+                            with inline_row("1", "1", "15px"):
+                                ui.label("Region landmark thickness")
+                                region_landmark_thickness = region_landmark_thickness_slider(
+                                    controls)
+
+                            with inline_row("1", "1", "15px"):
+                                hands_landmarks_checkbox = overlay_hands_landmarks_checkbox(
+                                    controls)
+
+                                hands_region_checkbox = overlay_hands_region_checkbox(
+                                    controls)
+
+                            with inline_row("1", "1", "15px"):
+                                hands_type_checkbox = overlay_hands_type_checkbox(
+                                    controls)
+
+                                hands_sign_checkbox = overlay_hands_sign_checkbox(
+                                    controls)
+
+                            default_display_settings_button(controls,
+                                                            point_landmark_radius,
+                                                            point_landmark_thickness,
+                                                            line_landmark_thickness,
+                                                            region_landmark_thickness,
+                                                            hands_landmarks_checkbox,
+                                                            hands_region_checkbox,
+                                                            hands_type_checkbox,
+                                                            hands_sign_checkbox)
 
             with ui.tab_panel("Help").classes(tab_panel_classes):
                 ui.markdown("Help")
@@ -111,7 +233,9 @@ def log_in(request: Request):
             ui.open("/")
 
         else:
-            ui.notify("Wrong username or password", color="negative")
+            ui.notify("Wrong username or password",
+                      type="negative",
+                      position="bottom")
 
     if is_authenticated(request):
         return RedirectResponse("/")
