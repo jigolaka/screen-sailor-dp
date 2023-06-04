@@ -1,4 +1,3 @@
-import re
 import mediapipe as mp
 from contextlib import contextmanager
 from sailor.process.camera import np, cv2, Camera
@@ -103,30 +102,6 @@ class Tracker(Camera):
 
     def set_region_landmark_thickness(self, thickness_value):
         self.region_landmark_thickness = thickness_value
-
-    # def set_point_landmark_color(self, point_color_rgb):
-    #     r = int(re.findall("[0-9]+", point_color_rgb)[0])
-    #     g = int(re.findall("[0-9]+", point_color_rgb)[1])
-    #     b = int(re.findall("[0-9]+", point_color_rgb)[2])
-    #     self.point_landmark_color = b, g, r
-
-    # def set_line_landmark_color(self, line_color_rgb):
-    #     r = int(re.findall("[0-9]+", line_color_rgb)[0])
-    #     g = int(re.findall("[0-9]+", line_color_rgb)[1])
-    #     b = int(re.findall("[0-9]+", line_color_rgb)[2])
-    #     self.line_landmark_color = b, g, r
-
-    # def set_hand_type_label_color(self, region_color_rgb):
-    #     r = int(re.findall("[0-9]+", region_color_rgb)[0])
-    #     g = int(re.findall("[0-9]+", region_color_rgb)[1])
-    #     b = int(re.findall("[0-9]+", region_color_rgb)[2])
-    #     self.hand_type_label_color = b, g, r
-
-    # def set_region_landmark_color(self, region_color_rgb):
-    #     r = int(re.findall("[0-9]+", region_color_rgb)[0])
-    #     g = int(re.findall("[0-9]+", region_color_rgb)[1])
-    #     b = int(re.findall("[0-9]+", region_color_rgb)[2])
-    #     self.region_landmark_color = b, g, r
 
     @contextmanager
     def track_results(self, frame):

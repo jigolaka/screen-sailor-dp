@@ -211,14 +211,11 @@ def main_page(request: Request):
                 ui.markdown("About")
 
             with ui.tab_panel(f"{session['username']}").classes(tab_panel_classes):
-                with ui.expansion("Edit info", icon=user_info, value=True).style(card_color):
+                with ui.expansion("User info", icon=user_info, value=True).style(card_color):
                     with ui.column():
                         with card():
-                            username = username_input(try_edit)
-                            password = password_input(try_edit)
-
-                        ui.button("Log out", on_click=lambda: ui.open(
-                            "/logout")).props(f"icon={logout_icon}")
+                            ui.button("Log out", on_click=lambda: ui.open(
+                                "/logout")).props(f"icon={logout_icon}")
 
 
 @ui.page("/login")

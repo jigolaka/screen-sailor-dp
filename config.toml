@@ -10,10 +10,25 @@
     show = false
 
     [ui.colors]
-    primary = "#00CCAE"     # Aquamarine
-    secondary = "#23262E"   # Onyx
-    accent = "#FFFFFF"      # Quartz
-    positive = "#50C878"    # Emerald
-    negative = "#9B111E"    # Ruby
-    info = "#0F52BA"        # Sapphire
-    warning = "#FFC87C"     # Topaz
+    primary = "#00CCAE"     
+    secondary = "#23262E"   
+    accent = "#FFFFFF"      
+    positive = "#50C878"    
+    negative = "#9B111E"    
+    info = "#0F52BA"        
+    warning = "#FFC87C"     
+
+    [ui.icons]
+    sail_boat = "sailing"
+    bug_report = "bug_report"
+    help = "help"
+    info = "info"
+    profile = "account_circle"
+    camera = "video_camera_front"
+    camera_settings = "video_camera_back"
+    tracker_settings = "control_camera"
+    gestures_settings = "sign_language"
+    controls_settings = "mouse"
+    display_settings = "display_settings"
+    user_info = "person_pin"
+    logout = "logout"
